@@ -1,31 +1,50 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRouter } from "next/router"
-import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import styles from '../../styles/Details.module.css'
-import Link from 'next/link' 
-export default function Details(){
-    const {
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
+import styles from "../../styles/Details.module.css";
 
-        query:{ id }
-     
-    } = useRouter();
-    const [pokemon, setPokemon] = useState(null);
-    useEffect(()=>{
-     async function getPokemon() {
-      const resp = await fetch(`https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${id}.json`);
-      setPokemon(await resp.json());
-     }
-     if(id){
-        getPokemon();
-     }
-     
-    }, [id]); // repasar useeffect 
-    if(!pokemon){
-        return null;
-    }
-    return(
-        <div>
+// export async function getStaticPaths() {
+//   const resp = await fetch(
+//     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+//   );
+//   const pokemon = await resp.json();
+
+//   return {
+//     paths: pokemon.map((pokemon) => ({
+//       params: { id: pokemon.id.toString() },
+//     })),
+//     fallback: false,
+//   };
+// }
+export async function getServerSideProps({params}){
+  const resp = await fetch(
+    `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params.id}.json`
+  );
+
+  return {
+    props: {
+      pokemon: await resp.json(),
+    },
+    // revalidate: 30,
+  };
+}
+// export async function getStaticProps({ params }) {
+//   const resp = await fetch(
+//     `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params.id}.json`
+//   );
+
+//   return {
+//     props: {
+//       pokemon: await resp.json(),
+//     },
+//     // revalidate: 30,
+//   };
+// }
+
+export default function Details({ pokemon }) {
+  return (
+    <div>
       <Head>
         <title>{pokemon.name}</title>
       </Head>
@@ -64,5 +83,5 @@ export default function Details(){
         </div>
       </div>
     </div>
-    )
+  );
 }

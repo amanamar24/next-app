@@ -5,16 +5,35 @@ import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 // try to change styles by another name
+// server side rendering
 
- const Home: NextPage = () => {
-  const [pokemon, setPokemon] = useState([]);
-  useEffect(()=>{
-   async function getPokemon() {
-    const resp = await fetch("https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json");
-    setPokemon(await resp.json());
-   }
-   getPokemon();
-  }, []);
+export async function getStaticProps() {
+  const resp = await fetch(
+    "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+  );
+
+  return {
+    props: {
+      pokemon: await resp.json(),
+    },
+  };
+}
+// server side rendering
+
+//  const Home: NextPage = () => {
+ const Home: NextPage = (pokemon) => {
+//  console.log({pokemon});
+  //client side rendering
+  //const [pokemon, setPokemon] = useState([]);
+  // useEffect(()=>{
+  //  async function getPokemon() {
+  //   const resp = await fetch("https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json");
+  //   setPokemon(await resp.json());
+  //  }
+  //  getPokemon();
+  // }, []);
+  //client side rendering
+
 
   return (
     <div className={styles.container}>
@@ -27,7 +46,8 @@ import Link from 'next/link'
         </div> */}
         {/* {console.log(pokemon.id)} */}
         <div className={styles.grid}>
-          {pokemon.map((pokemon:any) => (
+          {pokemon.pokemon.map((pokemon:any) => (
+            // compila sin error
             <div className={styles.card} key={pokemon.id}>
               
               <Link href={`/pokemon/${pokemon.id}`}>
