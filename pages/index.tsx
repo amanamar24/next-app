@@ -1,13 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-// import type { NextPage } from 'next'
+import { InferGetServerSidePropsType } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 // try to change styles by another name
 // server side rendering
 
-export async function getStaticProps() {
+export const getServerSideProps = async () => {
   const resp = await fetch(
     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
   );
@@ -21,7 +22,7 @@ export async function getStaticProps() {
 // server side rendering
 
 //  const Home: NextPage = () => {
- const Home = (pokemon) => {
+ const Home = ({pokemon}:any) => {
 //  console.log({pokemon});
   //client side rendering
   //const [pokemon, setPokemon] = useState([]);
@@ -46,7 +47,7 @@ export async function getStaticProps() {
         </div> */}
         {/* {console.log(pokemon.id)} */}
         <div className={styles.grid}>
-          {pokemon.map((pokemon) => (
+          {pokemon.map((pokemon:any) => (
             // compila sin error
             <div className={styles.card} key={pokemon.id}>
               
