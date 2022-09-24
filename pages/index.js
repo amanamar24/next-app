@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import type { NextPage } from 'next'
+// import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
@@ -21,7 +21,7 @@ export async function getStaticProps() {
 // server side rendering
 
 //  const Home: NextPage = () => {
- const Home: NextPage = (pokemon) => {
+ const Home = (pokemon) => {
 //  console.log({pokemon});
   //client side rendering
   //const [pokemon, setPokemon] = useState([]);
@@ -46,7 +46,7 @@ export async function getStaticProps() {
         </div> */}
         {/* {console.log(pokemon.id)} */}
         <div className={styles.grid}>
-          {pokemon.pokemon.map((pokemon:any) => (
+          {pokemon.map((pokemon) => (
             // compila sin error
             <div className={styles.card} key={pokemon.id}>
               
