@@ -8,7 +8,7 @@ import Link from 'next/link'
 // try to change styles by another name
 // server side rendering
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const resp = await fetch(
     "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
   );
